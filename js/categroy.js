@@ -62,17 +62,95 @@ window.onload = function () {
         }
     })
     
+    // 为每一个 li 元素设置添加一个索引值
+    for (var i = 0; i < lis.length; i++) {
+        lis[i].index = i
+    }
+    
+    // 绑定 fastclick 事件
+    if ('addEventListener in document') {
+        document.addEventListener('DOMContentLoaded', function () {
+            // 参数可以是任意的 dom 元素，如果写 document.body，说明 document.body 下面的所有元素都会绑定 fastclick
+            FastClick.attach(document.body)
+        }, false)
+    }
+    
     // 绑定移动端的 tap 事件
-    itcast.tap(ulBox, function (e) {
+    // itcast.tap(ulBox, function (e) {
+        // // 1. 修改 li 元素的样式：将所有 li 元素的 active 样式清除，再为当前被点击的 li 元素添加 active 样式
+        // for (var i = 0; i < lis.length; i++) {
+        //     lis[i].classList.remove("active")
+        // }
+        // // 为当前被单击的 li 元素添加样式
+        // var li = e.target.parentNode
+        // var liHeight = li.offsetHeight
+        // li.classList.add("active")
+        
+        // // 2. 移动当前的 li 元素到父容器的最顶部，但是不能超出之前设定了静止状态下的最小 top 值
+        // // 获取当前 li 元素的索引值
+        // var index = li.index
+        // // 开启过渡
+        // ulBox.style.transition = "top 0.5s ease-in-out"
+        // // 设置偏移
+        // if (-index * liHeight < minTop) {
+        //     currentY = minTop
+        //     ulBox.style.top = minTop + "px"
+        // } else {
+        //     currentY = -index * liHeight
+        //     ulBox.style.top = -index * liHeight + "px"
+        // }
+    // })
+    
+    // zepto Tap 封装
+    // $(ulBox).on("tap", function (e) {
+    //     // 1. 修改 li 元素的样式：将所有 li 元素的 active 样式清除，再为当前被点击的 li 元素添加 active 样式
+    //     for (var i = 0; i < lis.length; i++) {
+    //         lis[i].classList.remove("active")
+    //     }
+    //     // 为当前被单击的 li 元素添加样式
+    //     var li = e.target.parentNode
+    //     var liHeight = li.offsetHeight
+    //     li.classList.add("active")
+        
+    //     // 2. 移动当前的 li 元素到父容器的最顶部，但是不能超出之前设定了静止状态下的最小 top 值
+    //     // 获取当前 li 元素的索引值
+    //     var index = li.index
+    //     // 开启过渡
+    //     ulBox.style.transition = "top 0.5s ease-in-out"
+    //     // 设置偏移
+    //     if (-index * liHeight < minTop) {
+    //         currentY = minTop
+    //         ulBox.style.top = minTop + "px"
+    //     } else {
+    //         currentY = -index * liHeight
+    //         ulBox.style.top = -index * liHeight + "px"
+    //     }
+    // })
+    
+    // fastclick 使用的时候就是来绑定 click 事件的
+    ulBox.addEventListener("click", function (e) {
         // 1. 修改 li 元素的样式：将所有 li 元素的 active 样式清除，再为当前被点击的 li 元素添加 active 样式
         for (var i = 0; i < lis.length; i++) {
             lis[i].classList.remove("active")
         }
         // 为当前被单击的 li 元素添加样式
-        var li = e.target.parentNode;
+        var li = e.target.parentNode
+        var liHeight = li.offsetHeight
         li.classList.add("active")
         
         // 2. 移动当前的 li 元素到父容器的最顶部，但是不能超出之前设定了静止状态下的最小 top 值
+        // 获取当前 li 元素的索引值
+        var index = li.index
+        // 开启过渡
+        ulBox.style.transition = "top 0.5s ease-in-out"
+        // 设置偏移
+        if (-index * liHeight < minTop) {
+            currentY = minTop
+            ulBox.style.top = minTop + "px"
+        } else {
+            currentY = -index * liHeight
+            ulBox.style.top = -index * liHeight + "px"
+        }
     })
     
 }

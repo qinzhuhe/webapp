@@ -6,8 +6,14 @@
 		<title>商品详情</title>
         <link rel="stylesheet" type="text/css" href="css/category.css"/>
         <link rel="stylesheet" type="text/css" href="css/base.css"/>
-        <script src="js/common.js"></script>
+        <!-- 使用自己封装的 Tap 事件 -->
+        <!-- <script src="js/common.js"></script> -->
+        <!-- 使用 zepto 中封装的 Tap 事件 -->
+        <script src="zepto-master/dist/zepto.min.js"></script>
         <script src="js/categroy.js"></script>
+        <!-- 引入fastcick文件 -->
+        <script src="./fastclick-master/lib/fastclick.js"></script>
+        <script src="iscroll/iscroll.js"></script>
 	</head>
 	<body>
         <div class="ct_layout">
@@ -53,7 +59,7 @@
                     </a>
                     <h3>热门分类</h3>
                     <div class="ct_hotCategory">
-                        <ul>
+                        <ul class="clearfix">
                             <li>
                                 <a href="javascript:;">
                                     <img src="./images/nv-fy.jpg" alt="">
@@ -149,5 +155,11 @@
                 </div>
             </div>
         </div>
+        <script>
+            var myScroll = new IScroll('.ct_hotCategory', {
+                mouseWheel: true,
+                scrollbars: true
+            })
+        </script>
 	</body>
 </html>

@@ -118,6 +118,7 @@ html, body {
     width: 100%;
     overflow: hidden;
     flex: 1;
+    position: relative;
 }
 .ct_hotCategory li {
     width: 33.33%;

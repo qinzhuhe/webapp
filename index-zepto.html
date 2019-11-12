@@ -7,7 +7,13 @@
 	<link rel="stylesheet" href="./css/base.css">
 	<link rel="stylesheet" href="./css/index.css">
 	<!-- 引入首页的js文件 -->
-	<script src="./js/index.js"></script>
+	<!-- <script src="./zepto-master/src/zepto.min.js"></script>
+	<script src="./zepto-master/src/selector.js"></script>
+	<script src="./zepto-master/src/touch.js"></script>
+	<script src="./zepto-master/src/fx.js"></script> -->
+    <!-- 引入定制zepto文件 -->
+    <script src="./zepto-master/dist/zepto.min.js"></script>
+
 	<title>首页</title>
 </head>
 <body>
@@ -193,5 +199,75 @@
 		</div>
 	<!-- 页面底部 -->
 </div>
+<script>
+	// 使用zepto实现轮播图
+	$(function () {
+		// 1. 添加首尾两张图片
+			// 获取轮播图元素
+			var banner = $(".jd_banner");
+			var bannerWidth = banner.width();
+			// 获取图片盒子
+			var imgBox = banner.find("ul:first-of-type");
+			// 获取点标记
+			var indicators = banner.find("ul:eq(1)").find("li");
+			// 获取首尾两张图片
+			var firstImg = imgBox.find("li:first-of-type");
+			var lastImg = imgBox.find("li:last-of-type");
+			// 将两张图片添加到首尾
+			imgBox.append(firstImg.clone());
+			lastImg.clone().insertBefore(firstImg);
+		// 2. 重新设置图片盒子宽度
+			var lis = imgBox.find("li");
+			var count = lis.length;
+            imgBox.width(count * bannerWidth);
+			// 设置li宽度
+			lis.each(function (index, value) {
+				$(lis[index]).width(bannerWidth);
+			})
+			// 设置默认偏移
+			imgBox.css("left", -bannerWidth);
+			// 定义图片索引
+			var index = 1;
+			// 图片轮播的动画效果
+			var imgAnimation = function () {
+				imgBox.animate(
+					{"left" : -index * bannerWidth},
+					 200,
+					 "ease-in-out",
+					 function () {
+					 	if (index == count - 1) {
+					 		index = 1;
+					 		imgBox.css("left", -index * bannerWidth);
+					 	} else if (index == 0) {
+					 		index = count - 2;
+					 		imgBox.css("left", -index * bannerWidth);
+					 	}
+					 	// 设置点标记
+					 	indicators.removeClass('active').eq(index - 1).addClass('active');
+					 }
+				);
+			}
+		// 3. 开启定时器,实现自动轮播
+			var timerId = setInterval(function () {
+				index++;
+				imgAnimation();
+			}, 2000);
+		// 4. 添加移动端滑动事件,实现手动轮播
+			// 左滑动
+			// 在谷歌浏览器的模拟器中，无法正确的触发swipe相关事件，但是可以触发tap事件
+			imgBox.on("swipeLeft", function () {
+				clearInterval(timerId);
+				index++;
+				imgAnimation();
+			});
+			// 右滑动
+			imgBox.on("swipeRight", function () {
+				clearInterval(timerId);
+				index--;
+				imgAnimation();
+			});
+		// 5. 添加过渡效果结束之后的监听
+	});
+</script>
 </body>
 </html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>touch进行元素移动</title>
+	<style>
+		* {
+			padding: 0;
+			margin: 0;
+		}
+		div {
+			width: 1000px;
+			height: 300px;
+			background: linear-gradient(to right, red, blue)
+		}
+	</style>
+</head>
+<body>
+	<div></div>
+	<script>
+		var div = document.querySelector("div")
+		div.addEventListener("touchstart", function (e) {
+			// console.log(e)
+			// console.log(e.changedTouches)
+			console.log(e.targetTouches[0].clientX + " : " + e.targetTouches[0].clientY)
+		})
+		// 触摸滑动
+		// 触摸结束
+		div.addEventListener("touchend", function (e) {
+
+		})
+	</script>
+</body>
+</html>
